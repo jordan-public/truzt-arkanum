@@ -4,6 +4,10 @@ The demo instructions and video can be found [here](./demo/README.md).
 
 ## Abstract
 
+truZt arKanum is a Secretly Programmable money protocol. It allows for private fund transfers with plausible deniability,
+executable at a pre-determined time in the future, controlled by multiple signers and pre-programmed on-chain conditions.
+It also allows the participants to reveal their transactions if they want to, in order to cater to defense against accusations of wrongdoing or breach of agreement.
+
 ## Introduction
 
 Generally blockchains protect against data corruptibility via consensus. This naturally entails visibility of all data. Yet,
