@@ -1,4 +1,4 @@
-# truZt arKanum - Secretly Programmable Money
+# truZt arKanum (Trust Arcanum) - Secretly Programmable Money
 
 The demo instructions and video can be found [here](./demo/README.md).
 
