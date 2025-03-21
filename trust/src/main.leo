@@ -16,6 +16,10 @@ program trust.aleo {
     return BHP256::hash_to_field(token_id);
   }
 
+  transition get_wrapped_id(token_id: field) -> field {
+    return wrapped_id(token_id);
+  }
+
   async transition create_wrapper(public token_id: field) -> Future {
     let name: u128 = 6928249226643524685988262274414u128; // "Wrapper token" ascii encoded
     let symbol: u128 = 5722708u128; // "WRT" ascii encoded

@@ -8,4 +8,6 @@ cd token_registry_workaround
 ./install.sh
 cd ../bean_token
 ./install.sh
+cd ../trust
+./install.sh
 cd ..
