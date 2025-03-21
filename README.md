@@ -62,7 +62,8 @@ So, by proving that the user knows the number $n$ fed as private input to the pr
 
 $a = \operatorname{Pedersen128}(n)$
 
-shows that it's extremely hard to guess the private key $k_p$ Such likehood of guessing is $\frac{1}{2^{128}}$, as the entropy of Pedersen128, the worse of the above two hashes (BHP and Pedersen128) is 128 bits. Therefore we can safely assume that $a$ is a dead address.
+shows that it's extremely hard to guess the private key $k_p$ Such likelihood of guessing is $\frac{1}{2^{128}}$, as the entropy of Pedersen128, the weaker of the above two hashes (BHP and Pedersen128) is 128 bits. Therefore we can safely assume that $a$ is a dead address. This can be improved to 256
+bit by using another hash or a sponge, but that's a discussion for another day.
 
 As opposed to thousands of lines of code to implement EIP-7503 on both client and on-chain side, our implementation needs nothing
 on the client side and less than 10 lines of Leo code for the logic. ***We wish that Aleo includes this in their future version of 
