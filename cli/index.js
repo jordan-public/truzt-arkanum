@@ -19,7 +19,7 @@ async function localProgramExecution(program, programName, aleoFunction, inputs)
     programManager.setKeyProvider(keyProvider);
 
     // Pre-synthesize the program keys and then cache them in memory using key provider
-    const keyPair = await programManager.synthesizeKeys(hello_hello_program, aleoFunction, inputs);
+    const keyPair = await programManager.synthesizeKeys(program, aleoFunction, inputs);
     programManager.keyProvider.cacheKeys(`${programName}:${aleoFunction}`, keyPair);
 
     // Specify parameters for the key provider to use search for program keys. In particular specify the cache key
