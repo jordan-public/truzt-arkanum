@@ -1,0 +1,9 @@
+#!/bin/zsh
+set -e
+set -x
+
+leo execute --path ../bean_token mint_public aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px 100u128 --broadcast --yes --local
+sleep 5
+leo run balance_key aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px 1986245370112742436875568105128650176313749927841508924213988105972156054969field
+leo query program token_registry.aleo --mapping-value balances 6845706601203830423999732856578850002275288369334368166945372691607344762173field
+leo query program token_registry.aleo --mapping-value authorized_balances 6845706601203830423999732856578850002275288369334368166945372691607344762173field
