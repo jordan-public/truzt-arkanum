@@ -21,10 +21,10 @@ if (!address || !amount) {
 }
 
 // Validate amount is a positive integer
-if (!Number.isInteger(Number(amount)) || Number(amount) <= 0) {
-    console.error('Error: Amount must be a positive integer');
-    process.exit(1);
-}
+// if (!Number.isInteger(Number(amount)) || Number(amount) <= 0) {
+//     console.error('Error: Amount must be a positive integer');
+//     process.exit(1);
+// }
 
 async function mintTokens() {
     try {
@@ -41,8 +41,8 @@ async function mintTokens() {
         programManager.setAccount(account);
 
         // Read the program and its imports
-        const program = file_to_string('../bean_token/build/main.aleo');
-        const token_registry = file_to_string('../token_registry_workaround/build/main.aleo');
+        //const program = file_to_string('../bean_token/build/main.aleo');
+        //const token_registry = file_to_string('../token_registry_workaround/build/main.aleo');
         
         console.log('Creating mint transaction...');
         console.log('Recipient address:', address);
@@ -54,7 +54,7 @@ async function mintTokens() {
             functionName: "mint_public",
             fee: 0.020,
             privateFee: false,
-            inputs: [address, `${amount}u128`], // Format amount as u128
+            inputs: [address, amount.endsWith("u128") ? amount : `${amount}u128`], // Format amount as u128
             //program: program,
             //imports: [token_registry],
         });
