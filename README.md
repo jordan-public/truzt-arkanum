@@ -54,6 +54,16 @@ to hide their tracks. The effect of burning and minting the wrapper tokens is ne
 
 ![wormhole_transfer](./docs/wormhole_transfer.png)
 
+Finding a dead address is relatively easy. The premise is that it is extremely difficult to find the private key $k_p$ for a given 128-bit unsigned number $n$ that derives the address address $a$ (assume the raw binary value):
+
+$a = \operatorname{BHP::hash\_to\_group}(k_p)) = \operatorname{Pedersen128}(n)$
+
+So, by proving that the user knows the number $n$ fed as private input to the proof that the address $a$, fed as a public input to the proof, calculated as follows:
+
+$a = \operatorname{Pedersen128}(n)$
+
+shows that it's extremely hard to guess the private key $k_p$ Such likehood of guessing is $\frac{1}{2^{128}}$, as the entropy of Pedersen128, the worse of the above two hashes (BHP and Pedersen128) is 128 bits. Therefore we can safely assume that $a$ is a dead address.
+
 As opposed to thousands of lines of code to implement EIP-7503 on both client and on-chain side, our implementation needs nothing
 on the client side and less than 10 lines of Leo code for the logic. ***We wish that Aleo includes this in their future version of 
 Token Registry, so that even token wrapping would not be needed, and all tokens can enjoy plausible deniability on public-to-private transfers.***
