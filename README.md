@@ -58,7 +58,8 @@ Finding a dead address is relatively easy. The premise is that it is extremely d
 
 $a = \operatorname{BHP::hash\_to\_group}(k_p)) = \operatorname{Pedersen128}(n)$
 
-So, by proving that the user knows the number $n$ fed as private input to the proof that the address $a$, fed as a public input to the proof, calculated as follows:
+So, by proving that the user knows the number (preferably randomly generated to avoid collisions, however benign they are to the protocol) $n$ fed
+as private input to the proof that the address $a$, fed as a public input to the proof, calculated as follows:
 
 $a = \operatorname{Pedersen128}(n)$
 
