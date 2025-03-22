@@ -38,7 +38,7 @@ are the following features of Aleo:
 - Programmability which allows expressing execution conditions of the financial transactions.
 - View Keys which allow for read-only revelation of transactions, to to clear honest participants' names. 
 
-### Secret transfers with plausible deniability
+### Secret transfers with Plausible Deniability
 
 For anyone to dive into secrecy, they first have to perform a public-to-private transfer into the protocol used. 
 Aleo Token Registry allows for public-to-private transfers, and the amounts of the transfers are private. The private
