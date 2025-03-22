@@ -6,14 +6,15 @@ program trust.aleo {
 
   record TrusteeConsent {
     owner: address, // Trustee initially, handed over to Beneficiary as consent
+    beneficiary: address,
     will_id: field
   }
 
   record Will {
     owner: address, // The Beneficiary
     grantor: address, // The Grantor
+    beneficiary: address, // The Beneficiary
     will_id: field,
-    nonce: u64,
     funding_token_id: field,
     funding_amount: u128,
     approvals_needed: u8,
@@ -122,20 +123,20 @@ program trust.aleo {
   }
 
   // Set up trust - performed by grantor
-  // Given to beneficiary
+  // Given to beneficiary after adding trustees
   transition trust_setup(
     private funding: token_registry.aleo/Token, 
     private beneficiary: address, 
-    private will_id: field,
+    private will_id: field, // Make sure this is generated in a way that is unique
     private nonce: u64,
     private approvals_needed: u8,
     private good_after: u32) -> private Will 
   {
     return Will {
-      owner: beneficiary,
+      owner: self.caller,
       grantor: self.caller,
+      beneficiary: beneficiary,
       will_id: will_id,
-      nonce: nonce,
       funding_token_id: funding.token_id,
       funding_amount: funding.amount,
       approvals_needed: approvals_needed,
@@ -145,28 +146,43 @@ program trust.aleo {
   }
 
   // Grantor approves Trustee and passes the nonce to Trustee
-  transition add_trustee(private will_id: field, private trustee: address) -> TrusteeConsent {
-    return TrusteeConsent {
-      owner: trustee,
-      will_id: will_id
+  transition add_trustee(private will: Will, private trustee: address) -> (Will, TrusteeConsent) {
+    let same_will: Will = Will {
+      owner: will.owner,
+      grantor: will.grantor,
+      beneficiary: will.beneficiary,
+      will_id: will.will_id,
+      funding_token_id: will.funding_token_id,
+      funding_amount: will.funding_amount,
+      approvals_needed: will.approvals_needed,
+      approvals_received: will.approvals_received,
+      good_after: will.good_after
     };
+    let voucher: TrusteeConsent = TrusteeConsent {
+      owner: trustee,
+      beneficiary: will.beneficiary,
+      will_id: will.will_id
+    };
+    return (same_will, voucher);
   }
 
   // Trustee consents to the will execution - sends the consent to the beneficiary
-  transition trustee_consents(private voucher: TrusteeConsent, private beneficiary: address) -> private TrusteeConsent {
+  transition trustee_consents(private voucher: TrusteeConsent) -> private TrusteeConsent {
     return TrusteeConsent {
-      owner: beneficiary,
+      owner: voucher.beneficiary,
+      beneficiary: voucher.beneficiary,
       will_id: voucher.will_id
     };
   }
 
   // Beneficiary counts and registers the consent
   transition register_approval(private will: Will, private trustee_consent: TrusteeConsent) -> Will {
+    assert(will.will_id == trustee_consent.will_id);
     return Will {
       owner: will.owner,
       grantor: will.grantor,
+      beneficiary: will.beneficiary,
       will_id: will.will_id,
-      nonce: will.nonce,
       funding_token_id: will.funding_token_id,
       funding_amount: will.funding_amount,
       approvals_needed: will.approvals_needed,
