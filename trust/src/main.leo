@@ -10,7 +10,7 @@ program trust.aleo {
     deal_id: field
   }
 
-  transition balance_key(account: address, token_id: field) -> field {
+  transition balance_key(private account: address, private token_id: field) -> private field {
     let owner: TokenOwner = TokenOwner {
       account: account,
       token_id: token_id
@@ -22,7 +22,7 @@ program trust.aleo {
     return BHP256::hash_to_field(token_id);
   }
 
-  transition get_wrapped_id(token_id: field) -> field {
+  transition get_wrapped_id(private token_id: field) -> private field {
     return wrapped_id(token_id);
   }
 
@@ -81,14 +81,14 @@ program trust.aleo {
         return Pedersen128::hash_to_address(nonce);
   }
 
-  transition generate_dead_address(nonce: u64) -> address {
+  transition generate_dead_address(private nonce: u64) -> private address {
     return dead_address(nonce);
   }
 
   // This provides plausible deniability. If transferring to a dead address, the transfer is not public-to-private.
   // Otherwise, if the nonce is 0, the address is not considered dead (unless the sender makes a mistake equivalent to sending), 
   // to a random address) the transfer is public-to-public.
-  async transition transfer(public wrapper_token_id: field, public amount: u128, private destination: address, private nonce: u64) -> (token_registry.aleo/Token, Future) {
+  async transition transfer(public wrapper_token_id: field, public amount: u128, private destination: address, private nonce: u64) -> (private token_registry.aleo/Token, Future) {
     let ft: Future = token_registry.aleo/transfer_from_public(wrapper_token_id, self.caller, destination, amount);
     let private_amount: u128 = 0u128;
     if (destination == dead_address(nonce)) { private_amount = amount; } // Plausible deniability of private mint
@@ -100,7 +100,7 @@ program trust.aleo {
     fpm.await(); // mint private token
   }
 
-  async transition unwrap_private(private private_wrapper_token: token_registry.aleo/Token, private token_id: field, private amount: u128) -> (token_registry.aleo/Token, token_registry.aleo/Token, Future) {
+  async transition unwrap_private(private private_wrapper_token: token_registry.aleo/Token, private token_id: field, private amount: u128) -> (private token_registry.aleo/Token, private token_registry.aleo/Token, Future) {
     let (private_token, ftp): (token_registry.aleo/Token, Future) = token_registry.aleo/transfer_public_to_private(token_id, self.caller, amount, false); // there is always enough, as it was previously wrapped
     let (change_wrapper_token, fb): (token_registry.aleo/Token, Future) = token_registry.aleo/burn_private(private_wrapper_token, amount);
     return (private_token, change_wrapper_token, finalize_unwrap_private(ftp, fb));
