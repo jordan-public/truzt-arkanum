@@ -167,5 +167,7 @@ the inheritance.
 - No one can find out the time before which the inheritance cannot
 be disbursed.
 
+![will](../docs/will.png)
+
 Let's set this up:
 TBD
