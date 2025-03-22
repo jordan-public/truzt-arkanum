@@ -4,6 +4,12 @@ program trust.aleo {
 
   mapping wrapped_id_to_unwrapped_id: field => field;
 
+  record Voucher {
+    owner: address, // the Beneficiary
+    trustee: address,
+    deal_id: field
+  }
+
   transition balance_key(account: address, token_id: field) -> field {
     let owner: TokenOwner = TokenOwner {
       account: account,
@@ -102,5 +108,14 @@ program trust.aleo {
   async function finalize_unwrap_private(ftp: Future, fb: Future) {
     ftp.await(); // transfer public from this contract to private (to caller)
     fb.await(); // burn wrapper token as caller
+  }
+
+  // Secret signer
+  transition trustee_consent(private beneficiary: address, private deal_id: field) -> (private Voucher) {
+    return Voucher {
+      owner: beneficiary,
+      trustee: self.caller,
+      deal_id: deal_id
+    };
   }
 }
