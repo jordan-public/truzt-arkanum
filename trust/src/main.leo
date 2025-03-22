@@ -5,8 +5,7 @@ program trust.aleo {
   mapping wrapped_id_to_unwrapped_id: field => field;
 
   record TrusteeConsent {
-    owner: address, // the Beneficiary
-    trustee: address,
+    owner: address, // Trustee initially, handed over to Beneficiary as consent
     will_id: field
   }
 
@@ -18,24 +17,9 @@ program trust.aleo {
     funding_token_id: field,
     funding_amount: u128,
     approvals_needed: u8,
+    approvals_received: u8,
     good_after: u32,
   }
-
-  struct TrusteeKey {
-    trustee: address,
-    nonce: u64, // To make the trustee_key secret / undistinguishable so trustees cannot pry on each other
-    will_id: field,
-  }
-
-  struct WillKey {
-    nonce: u64, // To make the trustee_key secret / undistinguishable so trustees cannot pry on each other
-    will_id: field,
-  }
-
-  mapping trustee_actions: /* TrusteeKey */ field => u8; // 1: is trustee, 2: has approved, 3, is counted
-  const IS_TRUSTEE: u8 = 1u8;
-  const IS_COUNTED: u8 = 2u8;
-  mapping approval_count: /* WillKey */ field => u8;
 
   transition balance_key(private account: address, private token_id: field) -> private field {
     let owner: TokenOwner = TokenOwner {
@@ -155,91 +139,52 @@ program trust.aleo {
       funding_token_id: funding.token_id,
       funding_amount: funding.amount,
       approvals_needed: approvals_needed,
+      approvals_received: 0u8,
       good_after: good_after
     };
   }
 
   // Grantor approves Trustee and passes the nonce to Trustee
-  async transition add_trustee(private will_id: field, private nonce: u64, private trustee: address) -> Future {
-    let trustee_key: TrusteeKey = TrusteeKey {
-      trustee: trustee,
-      nonce: nonce,
+  transition add_trustee(private will_id: field, private trustee: address) -> TrusteeConsent {
+    return TrusteeConsent {
+      owner: trustee,
       will_id: will_id
     };
-    let trustee_key_hash: field = BHP256::hash_to_field(trustee_key);
-    let f: Future = finalize_add_trustee(trustee_key_hash);
-    return f;
-  }
-  async function finalize_add_trustee(trustee_key_hash: field) {
-    Mapping::set(trustee_actions, trustee_key_hash, 1u8);
   }
 
-  // Trustee consents to the will execution
-  transition trustee_consents(private beneficiary: address, private will_id: field) -> (private TrusteeConsent) {
+  // Trustee consents to the will execution - sends the consent to the beneficiary
+  transition trustee_consents(private voucher: TrusteeConsent, private beneficiary: address) -> private TrusteeConsent {
     return TrusteeConsent {
       owner: beneficiary,
-      trustee: self.caller,
-      will_id: will_id
+      will_id: voucher.will_id
     };
   }
 
-  // // Trustee approves and issues TrusteeConsent
-  // async transition trustee_approves(private will_id: field, private nonce: u64) -> (TrusteeConsent, Future) {
-  //   let trustee_key: TrusteeKey = TrusteeKey {
-  //     trustee: self.caller,
-  //     nonce: nonce, // To make the trustee_key secret / undistinguishable so trustees cannot pry on each other
-  //     will_id: will_id,
-  //   };
-  //   let trustee_key_hash: field = BHP256::hash_to_field(trustee_key);
-  //   let f: Future = finalize_trustee_approves(trustee_key_hash);
-  //   let v: TrusteeConsent = TrusteeConsent {self.caller, will_id};
-  //   return (v, f);
-  // }
-  // async function finalize_trustee_approves(trustee_key_hash: field) {
-  //   assert_eq(trustee_actions.get(trustee_key_hash), IS_TRUSTEE); // This implies trustee_key_hash != HAS_APPROVED
-  //   Mapping::set(trustee_actions, trustee_key_hash, HAS_APPROVED);
-  // }
-
-  // Beneficiary registers the approval
-  async transition register_approval(private trustee_consent: TrusteeConsent, will_nonce: u64) -> Future {
-    let trustee_key: TrusteeKey = TrusteeKey {
-      trustee: trustee_consent.trustee,
-      nonce: will_nonce,
-      will_id: trustee_consent.will_id
+  // Beneficiary counts and registers the consent
+  transition register_approval(private will: Will, private trustee_consent: TrusteeConsent) -> Will {
+    return Will {
+      owner: will.owner,
+      grantor: will.grantor,
+      will_id: will.will_id,
+      nonce: will.nonce,
+      funding_token_id: will.funding_token_id,
+      funding_amount: will.funding_amount,
+      approvals_needed: will.approvals_needed,
+      approvals_received: will.approvals_received + 1u8,
+      good_after: will.good_after
     };
-    let trustee_key_hash: field = BHP256::hash_to_field(trustee_key);
-    let will_key: WillKey = WillKey {
-      nonce: will_nonce,
-      will_id: trustee_consent.will_id
-    };
-    let will_key_hash: field = BHP256::hash_to_field(will_key);
-    let f: Future = finalize_register_approval(trustee_key_hash, will_key_hash);
-    return f;
-  }
-  async function finalize_register_approval(trustee_key_hash: field, will_key_hash: field) {
-    assert_eq(trustee_actions.get(trustee_key_hash), IS_TRUSTEE);
-    Mapping::set(trustee_actions, trustee_key_hash, IS_COUNTED);
-    let count: u8 = approval_count.get(will_key_hash);
-    Mapping::set(approval_count, will_key_hash, count + 1u8);
   }
 
   // Beneficiary cashes out
-  async transition cash_out(private will: Will, private will_id: field, private nonce: u64, private decoy_time: u32, decoy_approvals_needed: u8) -> (token_registry.aleo/Token, Future) {
-    let will_key: WillKey = WillKey {
-      nonce: 0u64, // To make the trustee_key secret / undistinguishable so trustees cannot pry on each other
-      will_id: will_id
-    };
-    let will_key_hash: field = BHP256::hash_to_field(will_key);
-    assert(will.good_after <= decoy_time);
-    assert(will.approvals_needed <= decoy_approvals_needed); // We can pass the number of approvals counted
+  async transition cash_out(private will: Will, private decoy_time: u32) -> (token_registry.aleo/Token, Future) {
+    assert(will.good_after <= decoy_time);// We can pass the number of approvals counted
+    assert(will.approvals_received >= will.approvals_needed);
     let (token, fpm): (token_registry.aleo/Token, Future) = token_registry.aleo/mint_private(will.funding_token_id, self.caller, will.funding_amount, false, 0u32);
-    let f: Future = finalize_cash_out(fpm, will_key_hash, decoy_time, decoy_approvals_needed);
+    let f: Future = finalize_cash_out(fpm, decoy_time);
     return (token, f);
   }
-  async function finalize_cash_out(fpm: Future, will_key_hash: field, decoy_time: u32, decoy_approvals_needed: u8) {
+  async function finalize_cash_out(fpm: Future, decoy_time: u32) {
     fpm.await();
     assert(decoy_time < block.height);
-    let count: u8 = approval_count.get(will_key_hash);
-    assert(count >= decoy_approvals_needed);
   }
 }
