@@ -1,11 +1,12 @@
-# truZt arKanum (Trust Arcanum - Secret Trust) - Secretly Programmable Money
+# truZt arKanum (Trust Arcanum - Secret Trust) - Secretly Programmable Money with Total Plausible Deniability
 
 The demo instructions and video can be found [here](./demo/README.md).
 
 ## Abstract
 
-truZt arKanum is a Secretly Programmable money protocol. It allows for private fund transfers with plausible deniability,
-executable at a pre-determined time in the future, controlled by multiple signers and pre-programmed on-chain conditions.
+truZt arKanum is a Secretly Programmable money protocol that
+achieves maximal Plausible Deniability. It allows for indistinguishable private and public fund transfers,
+executable at a pre-determined secret time in the future, controlled by multiple secret signers and pre-programmed on-chain conditions.
 It also allows the participants to reveal their transactions if they want to, in order to cater to defense against accusations of wrongdoing or breach of agreement.
 
 ## Introduction
@@ -24,7 +25,7 @@ controls and many other cases.
 - Revealing: If accused of wrongdoing, the participants in such private transactions should be able to selectively reveal their actions in order to defend themselves by giving read-only access to the authorities or other accusers
 of unethical behavior.
 
-The truZt arKanum protocol provides a solution to the above issues in a simple manner using combination of Zero Knowledge and Consensus mechanisms.
+The truZt arKanum Protocol (read as Trust Arcanum - Secret Trust) provides a solution to the above issues in a simple manner using combination of Zero Knowledge and Consensus mechanisms.
 
 ## Implementation
 
@@ -54,7 +55,7 @@ to hide their tracks. The effect of burning and minting the wrapper tokens is ne
 
 ![wormhole_transfer](./docs/wormhole_transfer.png)
 
-Finding a dead address is relatively easy. The premise is that it is extremely difficult to find the private key $k_p$ for a given 128-bit unsigned number $n$ that derives the address address $a$ (assume the raw binary value):
+Finding a dead address is relatively easy. The premise is that it is extremely difficult to find the private key $k_p$ for a given 128-bit unsigned number $n$ (nonce) that derives the address address $a$ (assume the raw binary value):
 
 $a = \operatorname{BHP::hash\_to\_group}(k_p)) = \operatorname{Pedersen128}(n)$
 
@@ -69,6 +70,17 @@ bit by using another hash or a sponge, but that's a discussion for another day.
 As opposed to thousands of lines of code to implement EIP-7503 on both client and on-chain side, our implementation needs nothing
 on the client side and less than 10 lines of Leo code for the logic. ***We wish that Aleo includes this in their future version of 
 Token Registry, so that even token wrapping would not be needed, and all tokens can enjoy plausible deniability on public-to-private transfers.***
+
+#### Public Transfers indistinguishable from Private ones -  more Plausible Deniability
+
+To make the transaction indistinguishable from any other public transfers, we can pass the nonce $n = 0$ (as private input to the ZK proof). Our
+program will perform a regular public transfer, and no one can find out about this either.
+
+
+#### Secret Token Burning with Plausible Deniability
+
+If we create a Dead Address and still pass the nonce $n = 0$ as private input, we achieve Burning of the token. This may not be useful to our cause,
+but other protocols can use this to achieve ***Secret Deflation***.
 
 ### Secret Time with Plausible Deniability
 
