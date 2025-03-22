@@ -110,4 +110,23 @@ Each participant has to agree to disclose their actions and reveal their Vew Key
 
 Using different private keys (accounts) can help users isolate their unrelated actions against being cross-referenced.
 
+## Problems encountered
+
+1. The Amareleo development node apparently does not come with `token_registry.aleo` pre-installed.
+Trying to install it, we encountered an issue with identifier name length limitation of 31 in the
+latest Leo compiler. To mitigate this issue, we copied the program to the folder `/token_registry_workaround`,
+shortened the names, recompiled and put it in our install script to be installed. For more details
+see [here](./token_registry_workaround/README.md).
+
+2. We tried to write JavaScript versions of all our command line user interface utilities. However,
+the `@provablehq/sdk` library fails to broadcast the transactions properly. The transactions are partially
+broadcast and can be seen using the `leo query transaction` utility, but they return `HTTP 500` error. 
+To mitigate this issue, we wrote command line utilities using the `leo execute --broadcast` command in
+order to broadcast the transactions. This is documented and demonstrated in `/cli/test_mintBEAN.sh` and  `/cli/mintBEAN.js` and the equivalent fixed version is in `/bean_token/mint_BEAN.sh`.
+
+3. We needed to use the function `BHP256::hash_to_field` in JavaScript/Node.js in our command line utilities.
+As the argument packaging was not documented, we could not find a way to call this, as seen in `/cli/bal.js`.
+To mitigate this issue we created an Aleo function named `balance_key` in the program `/trust/trust.leo` and
+called it from our library `/cli/queryBalanceKey.js` to achieve the same, although less efficiently.
+
 ## Future work
