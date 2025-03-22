@@ -70,7 +70,7 @@ As opposed to thousands of lines of code to implement EIP-7503 on both client an
 on the client side and less than 10 lines of Leo code for the logic. ***We wish that Aleo includes this in their future version of 
 Token Registry, so that even token wrapping would not be needed, and all tokens can enjoy plausible deniability on public-to-private transfers.***
 
-### Time
+### Secret Time with Plausible Deniability
 
 All secret transfers have a vesting time parameter $t_v$. This is the earliest time at which the transfer can be executed.
 To avoid revealing this time, when ready to execute, the execution call produces the latest block time $t_l$ that is earlier than the current block time $t_b$,
@@ -79,15 +79,22 @@ This satisfies the on-chain visible timing condition without revealing the actua
 
 ![secret_time](./docs/secret_time.png)
 
+This way ***no one can find out the time parameter***, or ***whether there is one at all*** as we can pass a past time as requirement, effectively ignoring the
+timing restriction.
+
 In Aleo we did not find a built-in way to discover the block time, so we use the block height instead.
 
-### Multisig
+### Multisig with Plausible Deniability
 
 To have multiple users produce ZK proofs and aggregate them off-chain would be a complex task. That would also require off-chain coordination by the Web3 application, which may not be as decentralized as we would want to. 
 
 To solve this problem, instead of aggregating ZK proofs, we use a combination of ZK and Consensus, which is natural in Aleo. The Aleo Records contain encrypted information secured by ZK proofs and governed by Consensus. Aleo Consensus assures that the Records cannot be created or consumed by unintended actors, and they are encrypted anyway:
 
 ![multisig](./docs/multisig.png)
+
+Each signer creates an incorruptible secret "voucher" that states "I signed" and proves it. Yet, ***no one can find out  who signed***, as Aleo
+transactions can be broadcasted by anyone. All we know is that someone is interacting with Aleo, but since there are no async functions that record
+public information, the generated Aleo Records for Vouchers and their Serial Numbers (nullifiers) are indistinguishable from any other Records.
 
 ### General conditions
 
@@ -153,3 +160,5 @@ programmed condition could be the responsibility of the creator/user.
 
 ## Future work
 
+More built-in generically usable transfer conditions are needed. We would package them as command line utilities and audit
+them. Then the user can mix-and-match their own workflows.
