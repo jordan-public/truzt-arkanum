@@ -11,6 +11,7 @@ And approve everything when asked.
 
 To run:
 ```zsh
-pnpm run dev
+./<command>.js
 ```
+If it does not run, the file is not meant to run standalone.
 
