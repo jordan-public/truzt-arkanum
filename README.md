@@ -110,6 +110,21 @@ Each participant has to agree to disclose their actions and reveal their Vew Key
 
 Using different private keys (accounts) can help users isolate their unrelated actions against being cross-referenced.
 
+## Usage instructions
+
+We all know what part of Tornado.cash was attacked first, and shut down: the ***Web3 User Interface***. It can be hosted by immutable content-addressable mechanisms such as IPFS and pointed by ENS (Ethereum Naming Service) domains, but the most frequent front end used is one with classical Web hosting, and cached by Content Delivery Networks (CDN) for high performance.
+
+Web User Interfaces have been prone to cyber attacks as well. No matter how secure the on-chain program is, the weakest link is the
+Web front end, and if it can be hacked / modified, the users can be
+victims of theft.
+
+So, we decided to provide a Command Line Interface (CLI) that can
+be found in this Source Code Repository, with signed releases, when
+time comes for it. Users can clone the repo, install locally and
+not worry about the web site being taken down.
+
+All CLI utilities are documented [here](./CLI/README.md).
+
 ## Problems encountered
 
 1. The Amareleo development node apparently does not come with `token_registry.aleo` pre-installed.
@@ -129,4 +144,12 @@ As the argument packaging was not documented, we could not find a way to call th
 To mitigate this issue we created an Aleo function named `balance_key` in the program `/trust/trust.leo` and
 called it from our library `/cli/queryBalanceKey.js` to achieve the same, although less efficiently.
 
+4. Currently Aleo programs have to know the addresses of the other programs they are calling, and the programs are
+not upgradeable yet. This makes it difficult
+to deploy various custom programmed conditions for fund transfers. However this is not a big problem - the entire
+protocol can be re-deployed with the addition of each new custom programmed condition. Aleo deployment is not expensive,
+especially not for programs that involve transfers of large amounts of funds. The core protocol can be audited, and each
+programmed condition could be the responsibility of the creator/user.
+
 ## Future work
+
