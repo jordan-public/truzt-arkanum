@@ -1,3 +1,7 @@
 #!/bin/zsh
+set -e
+set -x
 
-./mintBEAN.js aleo1mu7rruufpu6m6res7nvj43st00q5ygmy27vakzxc74ewzn7z6uqstz9vpy 1000aa
+./bal.js aleo1mu7rruufpu6m6res7nvj43st00q5ygmy27vakzxc74ewzn7z6uqstz9vpy 1986245370112742436875568105128650176313749927841508924213988105972156054969field
+./mintBEAN.js aleo1mu7rruufpu6m6res7nvj43st00q5ygmy27vakzxc74ewzn7z6uqstz9vpy 1000u128
+./bal.js aleo1mu7rruufpu6m6res7nvj43st00q5ygmy27vakzxc74ewzn7z6uqstz9vpy 1986245370112742436875568105128650176313749927841508924213988105972156054969field

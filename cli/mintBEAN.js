@@ -28,6 +28,9 @@ if (!address || !amount) {
 
 async function mintTokens() {
     try {
+        console.log('ENDPOINT:', process.env.ENDPOINT);
+        console.log('NETWORK:', process.env.NETWORK);
+
         // Initialize Aleo account from private key
         const account = new Account({ privateKey: process.env.PRIVATE_KEY });
         console.log('From address:', account.address().to_string());
@@ -49,18 +52,35 @@ async function mintTokens() {
         console.log('Amount:', amount);
         
         // Create and send the mint transaction using program manager
-        const tx = await programManager.execute({
+        // const tx = await programManager.execute({
+        const tx = await programManager.buildExecutionTransaction({
             programName: "bean_token.aleo",
             functionName: "mint_public",
-            fee: 0.020,
+            fee: 100.0,
             privateFee: false,
             inputs: [address, amount.endsWith("u128") ? amount : `${amount}u128`], // Format amount as u128
             //program: program,
             //imports: [token_registry],
         });
 
-        console.log('Transaction ID:', tx);
+        // console.log('Transaction:', tx.toString());
         console.log('Mint transaction completed successfully');
+        console.log('--------------------------------------------');
+
+        // No need to submit the transaction - execute() already does that.
+        // But, it's needed for buildExecutionTransaction()
+        const stxid = await programManager.networkClient.submitTransaction(tx);
+        console.log('Transaction submitted:', stxid);
+        console.log('--------------------------------------------');
+
+        // Wait for the transaction to be confirmed
+        // This returns HTTP 500 error, most likely do to a bug in the SDK. The transaction is not successful.
+        // If we do the same from the "leo" CLI, it works fine.
+        // Moreover, "leo query transaction <txid>" on this transaction returns HTTP 500 error as well,
+        // but on non-existing transactions, it returns HTTP 400.
+        const ctx = await programManager.networkClient.waitForTransactionConfirmation(stxid, 1000, 3000);
+        console.log('Transaction confirmed:', ctx);
+        console.log('--------------------------------------------');
     } catch (error) {
         console.error('Error executing mint transaction:', error.message);
         console.log('Error details:', error);

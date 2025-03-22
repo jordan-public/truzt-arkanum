@@ -75,6 +75,10 @@ program trust.aleo {
         return Pedersen128::hash_to_address(nonce);
   }
 
+  transition generate_dead_address(nonce: u64) -> address {
+    return dead_address(nonce);
+  }
+
   // This provides plausible deniability. If transferring to a dead address, the transfer is not public-to-private.
   // Otherwise, if the nonce is 0, the address is not considered dead (unless the sender makes a mistake equivalent to sending), 
   // to a random address) the transfer is public-to-public.

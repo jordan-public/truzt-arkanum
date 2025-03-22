@@ -13,10 +13,11 @@ const __dirname = dirname(__filename);
 dotenv.config({ path: resolve(__dirname, '.env') });
 
 // Get command line arguments
-const address = process.argv[2];
+let address = process.argv[2];
 
 if (!address) {
     console.error('Usage: node bal.js <address> <token_id>');
+    console.error('If address is "." then the address from the PTIVATE_KEY in .env file will be used');
     process.exit(1);
 }
 
@@ -27,10 +28,18 @@ async function checkBalance() {
         const networkClient = new AleoNetworkClient(process.env.ENDPOINT);
         const account = new Account({ privateKey: process.env.PRIVATE_KEY });
         networkClient.setAccount(account);
+        if (address === '.') {
+            address = account.address().to_string();
+            console.log('Using address from .env file:', address);
+        }
         
         // Get the token ID from command line or environment
-        const tokenId = process.argv[3] || process.env.TOKEN_ID;
-        if (!tokenId) {
+        let tokenId = process.argv[3];
+        if (tokenId === 'BEAN') {
+            tokenId = '1986245370112742436875568105128650176313749927841508924213988105972156054969field';
+        } else if (tokenId === 'WBEAN') {
+            tokenId = '4272297468386804690725057900432538860186578348390042053805776907130316959492field';
+        } else if (!tokenId) {
             throw new Error('Token ID must be provided as argument or in .env file');
         }
         
@@ -64,7 +73,7 @@ async function checkBalance() {
             balance = bStruct.balance;
         }
         console.log('Balance:', balance);
-        
+        console.log('--------------------------------------------');        
     } catch (error) {
         console.error('Error checking balance:', error.message);
         console.log('Error details:', error);
