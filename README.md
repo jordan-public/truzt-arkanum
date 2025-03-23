@@ -4,10 +4,12 @@ The demo instructions and video can be found [here](./demo/README.md).
 
 ## Abstract
 
-truZt arKanum is a Secretly Programmable money protocol that
-achieves maximal Plausible Deniability. It allows for indistinguishable private and public fund transfers,
-executable at a pre-determined secret time in the future, controlled by multiple secret signers and pre-programmed on-chain conditions.
-It also allows the participants to reveal their transactions if they want to, in order to cater to defense against accusations of wrongdoing or breach of agreement.
+truZt arKanum is a Secretly Programmable Money protocol that
+achieves Total Plausible Deniability. It allows for indistinguishable private and public fund transfers,
+executable at a pre-determined secret time in the future, controlled by multiple independent secret signers that do not need to
+know anything about each other and pre-programmed on-chain conditions.
+It also allows the participants to reveal their transactions if they want to, in order to cater to defense against accusations of wrongdoing or breach of agreement. The user interface is exposed as a set of command line utilities that allow asynchronous mix-and-match of all above features that can
+be executed manually or automated.
 
 ## Introduction
 
