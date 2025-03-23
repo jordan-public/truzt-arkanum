@@ -175,13 +175,13 @@ Let's continue from the previous demo:
 Since the private balance of the caller address is `10u128` let's use these funds and create an inheritance trust/will (the first argument is the record produced in the last run of `transfer.sh`):
 ```zsh
 cd ../trust
-trust_setup.sh "{\
+./trust_setup.sh "{
   owner: aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px.private,\
   amount: 10u128.private,\
   token_id: 4272297468386804690725057900432538860186578348390042053805776907130316959492field.private,\
   external_authorization_required: false.private,\
   authorized_until: 0u32.private,\
-  _nonce: 6993797306072554108139649715931241949427963168009817792439672122192827567824group.public\
+  _nonce: 4376738812965965071846568354306828232263054938358375135859497712818188067299group.public\
 }" aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px 123field 1u64 1u8 0u32
 ```
 
