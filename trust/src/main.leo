@@ -128,7 +128,6 @@ program trust.aleo {
     private funding: token_registry.aleo/Token, 
     private beneficiary: address, 
     private will_id: field, // Make sure this is generated in a way that is unique
-    private nonce: u64,
     private approvals_needed: u8,
     private good_after: u32) -> private Will 
   {

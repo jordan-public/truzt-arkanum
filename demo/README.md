@@ -182,7 +182,7 @@ cd ../trust
   external_authorization_required: false.private,\
   authorized_until: 0u32.private,\
   _nonce: 4376738812965965071846568354306828232263054938358375135859497712818188067299group.public\
-}" aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px 123field 1u64 1u8 0u32
+}" aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px 1u64 1u8 0u32
 ```
 
 This will produce the `Will` record:
