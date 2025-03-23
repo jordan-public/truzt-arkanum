@@ -1,6 +1,6 @@
 # truZt arKanum (Trust Arcanum - Secret Trust) - Secretly Programmable Money with Total Plausible Deniability
 
-The demo instructions and video can be found [here](./demo/README.md).
+The testnet deployment address, demo instructions and video can be found [here](./demo/README.md).
 
 ## Abstract
 

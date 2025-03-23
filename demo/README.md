@@ -4,6 +4,16 @@
 
 The video can be found [here](./truZt-arKanum720p.mov) and on [YouTube](https://youtu.be/EdMoRQVnVkQ).
 
+## Testnet deployment
+
+The Aleo program `trust.aleo`, (renamed to `trust_trust_trust.aleo` to save on fees) was deployed at the address:
+```
+at1jznj9pynqg8jak2mvewu02tnpp898r73sd6htge2hcd74g0puurqskkw9d
+```
+
+For more details, see [here](../trust/DEPLOYMENT_LOG.md).
+
+
 ## How to install and run
 
 Clone this repository.
