@@ -170,5 +170,45 @@ be disbursed.
 
 ![will](../docs/will.png)
 
-Let's set this up:
-TBD
+Let's continue from the previous demo:
+
+Since the private balance of the caller address is `10u128` let's use these funds and create an inheritance trust/will (the first argument is the record produced in the last run of `transfer.sh`):
+```zsh
+cd ../trust
+trust_setup.sh "{\
+  owner: aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px.private,\
+  amount: 10u128.private,\
+  token_id: 4272297468386804690725057900432538860186578348390042053805776907130316959492field.private,\
+  external_authorization_required: false.private,\
+  authorized_until: 0u32.private,\
+  _nonce: 6993797306072554108139649715931241949427963168009817792439672122192827567824group.public\
+}" aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px 123field 1u64 1u8 0u32
+```
+
+This will produce the `Will` record:
+```
+{
+  owner: aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px.private,
+  grantor: aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px.private,
+  beneficiary: aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px.private,
+  will_id: 123field.private,
+  funding_token_id: 4272297468386804690725057900432538860186578348390042053805776907130316959492field.private,
+  funding_amount: 10u128.private,
+  approvals_needed: 1u8.private,
+  approvals_received: 0u8.private,
+  good_after: 0u32.private,
+  _nonce: 3666843930863892451278771100242603319031770290124873738680336353767364260095group.public
+}
+```
+
+And we can continue with the Will workflow with the commands:
+
+- `add_trustee <will_record>, <trustee>` to add trustees to the will, one at a time, which produces trustee consent voucher records `TrusteeConsent`.
+
+- `trustee_consents <trustee_consent_record>` to have each trustee consent to the will execution, which hands over their `TrusteeConsent` record to the beneficiary, asynchronously.
+
+- `register_approval <will_record>, <trustee_consent_record>` to have the beneficiary consume `TrusteeConsent` records, one at a time, to register the consents produced by each trustee, in any order asynchronously.
+
+- `cash_out <will_record> <decoy_time>u32` once the will can be activated, the beneficiary can consume the `Will` record to cash out if
+the `decoy_time` (as block height) is greater than the `good_after` parameter of the `Will` record, and `decoy_time` is before (less than block height)
+of the last block.
