@@ -1,0 +1,30 @@
+# Accounts generated using /cli/genkey.js
+
+## Account 1
+Private Key: APrivateKey1zkp8pEFSKM9Q4vLPSDcj2NbCncTuyL9rdj7R97fqLnJBxyZ
+View Key: AViewKey1rqChCbJFAMw3GM7UqmHvtkqfSyq4LZUFtCiTnYvgHFyD
+Address: aleo1mu7rruufpu6m6res7nvj43st00q5ygmy27vakzxc74ewzn7z6uqstz9vpy
+
+## Account 2
+
+Private Key: APrivateKey1zkp5Kkv8cyqm2Gr12pjdsFCtxF8TnFczVYgsVMKr6nyLt7k
+View Key: AViewKey1mLnDKuNHASE77GUTd18UunALnsnhjLDSgNUgpKVJmKcU
+Address: aleo1979vu4p62yck4uwy8dg07n0lhtvd4mxnfm5x64wxp2c5kkn3hspqrc9mrv
+
+## Account 3
+
+Private Key: APrivateKey1zkpG9P8AHbmueYg5JGArsraAR4X3fAQWVezAyPwvjoB8dRA
+View Key: AViewKey1ksPk8E93o7u3aCL54qwNzPDnfZCw2X52BQ4vUjBysuEq
+Address: aleo1wdp638t6p6rlv66mee8jjz22q9f4k37qhwhjct9xssqpue8ra5rs24uxdf
+
+## Account 4
+
+Private Key: APrivateKey1zkpJpgeSiQr7v32bM8mYXjtbWZcsXZsj3cpZKKxcNmq4hCs
+View Key: AViewKey1pEtJhWyTCw53G3mVsjQLitHknjbEdDYtMF9TrXLdz8Xs
+Address: aleo18vmqmmfehhes4lx2j2a063whnsphfwgjfyygcsypcrlfm0nfuvyqcqupec
+
+## Account 5
+
+Private Key: APrivateKey1zkpJTpU1t4dBZTeKixQyAFFajag2m6CE2cXjvGZmgzCMbPL
+View Key: AViewKey1fzUu6mMQY7JMAsZuNzhTnohAfLhaobbzQVWfUj2HF8rW
+Address: aleo1n0gvzah9s8lx7dual0y0d6ufvg3wt9pfgxrzqfgex7mku9nygufqu2d2t7

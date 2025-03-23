@@ -49,7 +49,8 @@ We see that our address is `aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcw
 
 Let's mint 1000 BEAN tokens. These are test tokens that we can mint at will:
 ```zsh
-cd ../bean_token aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px 1000u128
+cd ../bean_token 
+./mint_BEAN.sh aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px 1000u128
 ```
 
 Let's approve the `trust.aleo` program (the zruZt arKanum program) to spend 100 of our beans:
@@ -81,7 +82,7 @@ one when running this.
 
 Let's authorize the program `trust.aleo` to move 10 Wrapped BEAN tokens from our account:
 ```zsh
-cd cd ../token_registry_workaround
+cd ../token_registry_workaround
 ./approve.sh 4272297468386804690725057900432538860186578348390042053805776907130316959492field trust.aleo 10u128
 ```
 
@@ -114,7 +115,7 @@ We get `aleo1eqcc9tftswya8mnhht6rkwmryxneyxe8m96wg4fe93p6t2gr9g9qtcdm8f`.
 
 Let's authorize the program `trust.aleo` to move 10 Wrapped BEAN tokens from our account again:
 ```zsh
-cd cd ../token_registry_workaround
+cd ../token_registry_workaround
 ./approve.sh 4272297468386804690725057900432538860186578348390042053805776907130316959492field trust.aleo 10u128
 ```
 
