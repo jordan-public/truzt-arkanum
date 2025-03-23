@@ -1,6 +1,6 @@
 import token_registry.aleo;
 
-program trust.aleo {
+program trust_trust_trust.aleo {
 
   mapping wrapped_id_to_unwrapped_id: field => field;
 
