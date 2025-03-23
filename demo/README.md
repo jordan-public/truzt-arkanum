@@ -2,7 +2,7 @@
 
 ## Video
 
-The video can be found [here]() and on [YouTube](https:://).
+The video can be found [here](./truZt-arKanum720p.mov) and on [YouTube](https://youtu.be/EdMoRQVnVkQ).
 
 ## How to install and run
 
