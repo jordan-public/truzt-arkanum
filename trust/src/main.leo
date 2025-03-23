@@ -124,15 +124,16 @@ program trust.aleo {
 
   // Set up trust - performed by grantor
   // Given to beneficiary after adding trustees
-  transition trust_setup(
+  async transition trust_setup(
     private funding: token_registry.aleo/Token, 
     private beneficiary: address, 
     private will_id: field, // Make sure this is generated in a way that is unique
     private approvals_needed: u8,
-    private good_after: u32) -> private Will 
+    private good_after: u32) -> (private Will, private token_registry.aleo/Token, Future)
   {
-    return Will {
-      owner: self.caller,
+    let (t, f): (token_registry.aleo/Token, Future) = token_registry.aleo/burn_private(funding, funding.amount);
+    return (Will {
+      owner: beneficiary,
       grantor: self.caller,
       beneficiary: beneficiary,
       will_id: will_id,
@@ -141,7 +142,12 @@ program trust.aleo {
       approvals_needed: approvals_needed,
       approvals_received: 0u8,
       good_after: good_after
-    };
+    },
+    t,
+    finalize_trust_setup(f));
+  }
+  async function finalize_trust_setup (f: Future) {
+    f.await();
   }
 
   // Grantor approves Trustee and passes the nonce to Trustee
