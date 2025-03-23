@@ -31,3 +31,8 @@ be discovered by running the command without parameters:
 - /trust/wrap_public_BEAN.sh: wraps BEAN test tokens publicly.
 - /trust/get_wrapped_BEAN_id.sh: gets the ID of the Wrapped BEAN test token.
 - /trust/wrap_public.sh: wraps tokens by given ID publicly.
+- /trust/trust_setup.sh: creates a will.
+- /trust/add_trustee: adds trustees to the will, one at a time, which produces trustee consent voucher records `TrusteeConsent`.
+- /trust/trustee_consents: trustees consent to the will execution.
+- /trust/register_approval: beneficiary registers the consents produced by each trustee.
+- /trust/cash_out: beneficiary cashes out the will/trust.
