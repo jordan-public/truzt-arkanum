@@ -124,10 +124,15 @@ protocol contract has to be re-deployed for each such programmed condition. Yet,
 
 ### Verification
 
+In case the user is accused og wrongdoing, they they can clear their name by disclosing the transactions in
+a read-only fashion.
+
 Nothing needs to be done here. Aleo allows for creation of View Keys from any private key. Revealing the view
 key allows the recipient to discover and read the transactions that have used the corresponding private key.
 
 Each participant has to agree to disclose their actions and reveal their Vew Keys.
+
+We are not providing user interface for the accuser - let them do it themselves. This is a program for the user.
 
 Using different private keys (accounts) can help users isolate their unrelated actions against being cross-referenced.
 
