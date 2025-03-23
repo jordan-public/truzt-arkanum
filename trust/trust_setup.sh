@@ -11,4 +11,4 @@ fi
 # snarkos developer execute --query $ENDPOINT trust.aleo trust_setup $1 $2 $3 $4 %5 --private-key $PRIVATE_KEY --network 1
 
 leo run trust_setup $1 $2 $3 $4 $5 $6
-# leo execute trust_setup $1 $2 $3 $4 $5 $6 --broadcast --yes --local
+leo execute trust_setup $1 $2 $3 $4 $5 $6 --broadcast --yes --local
