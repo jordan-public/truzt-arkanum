@@ -2,7 +2,7 @@
 
 ## Video
 
-The video can be found [here](./truZt-arKanum720p.mov) and on [YouTube](https://youtu.be/EdMoRQVnVkQ).
+The video can be found [here](./truZt-arKanum720p.mov) and on [YouTube](https://youtu.be/EdMoRQVnVkQ). The modified finalist presentation is on [YouTube](https://youtu.be/3QgV_kOTfGo) as well. 
 
 ## Testnet deployment
 

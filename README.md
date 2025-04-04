@@ -1,3 +1,9 @@
+[This project](https://ethglobal.com/showcase/truzt-arkanum-0vnxw) won the following prizes at the [ETHGlobal Trifecta](https://ethglobal.com/events/trifecta) hackathon:
+
+🏆 [Aleo - Best private dApp on Aleo 1st place](https://ethglobal.com/showcase/truzt-arkanum-0vnxw)
+
+🏆 [ETHGlobal Trifecta Finalist](https://ethglobal.com/showcase/truzt-arkanum-0vnxw) (presentaion [here](https://youtu.be/2YkFVHN-nEM?list=LL&t=6285))
+
 # truZt arKanum (Trust Arcanum - Secret Trust) - Secretly Programmable Money with Total Plausible Deniability
 
 The testnet deployment address, demo instructions and video can be found [here](./demo/README.md).
